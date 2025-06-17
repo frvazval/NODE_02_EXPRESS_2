@@ -17,11 +17,11 @@ app.get('/api', (req, res) => {
     console.table(req.query); 
     
     if (req.query.any && req.query.any == "desc" && req.query.pais == "asc") {
-        let anyo = jsonData.sort((a, b) => b.anyo - a.anyo);
-        return res.json(anyo.sort((a, b) => a.pais - b.pais));
+        let anyo = jsonData.sort((a, b) => b.anyo.localeCompare(a.anyo));
+        return res.json(anyo.sort((a, b) => a.pais.localeCompare(b.pais)));
     } else if (req.query.any && req.query.any == "desc") {
-        return res.json(jsonData.sort((a, b) => b.anyo - a.anyo));
-    }    
+        return res.json(jsonData.sort((a, b) => b.anyo.localeCompare(a.anyo)));
+    }
 
     res.json(jsonData);
 });
