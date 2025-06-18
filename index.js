@@ -88,4 +88,14 @@ app.get("/api/year/:year", (req, res) => {
 
 })
 
+// api/year/2024/italia
+app.get("/api/year/:year/:nombrePais", (req, res) => {
+    let nombrePais = req.params.nombrePais.toLocaleLowerCase();
+    const ventasAnualesPorPais = jsonData.filter(objeto => objeto.anyo == req.params.year && objeto.pais.toLocaleLowerCase() == nombrePais);
+    
+    if (ventasAnualesPorPais.length == 0) return res.json({"respuesta": "No hay datos en este momento"})
+    else res.json(ventasAnualesPorPais);
+
+})
+
 app.listen(PORT, () => console.log(`Example app listening on http://localhost:${PORT}`));
