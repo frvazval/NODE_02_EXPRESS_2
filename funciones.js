@@ -16,3 +16,7 @@ const arrayFilter = arrayOriginal.filter(numero => numero % 2 == 0);
 console.log(arrayFilter);
 
 // REDUCE
+// -> devuelve el resultado de una operación aplicada a todos los valores del array original en conjunto
+// arrayInicial.reduce((acumulador, item) => operación a realizar)
+const resultado = arrayOriginal.reduce((acumulador, numero) => acumulador + numero);
+console.log(resultado);
