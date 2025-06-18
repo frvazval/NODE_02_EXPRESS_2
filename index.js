@@ -60,8 +60,20 @@ app.get("/api/paises", (req, res) => {
 // /api/paises/italia -> de un pais concreto el total de las ventas
 
 app.get('/api/paises/:nombrePais', (req, res) => {
-    console.table(req.params);
-    
+    // console.table(req.params);
+    // console.log(req.params.nombrePais);
+    const nombrePais = req.params.nombrePais.toLowerCase();
+    const resultado = [];
+
+    for (objeto of jsonData) {
+        let pais = objeto['pais'].toLowerCase();
+        if (nombrePais == pais) resultado.push(objeto);        
+    }
+
+    if (resultado.length == 0) {
+        return res.json({"respuesta": "No hay datos en este momento"})
+    }
+    res.json(resultado);
 })
 
 app.listen(PORT, () => console.log(`Example app listening on http://localhost:${PORT}`));
