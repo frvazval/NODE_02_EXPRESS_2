@@ -17,13 +17,18 @@ app.get('/api', (req, res) => {
     console.table(req.query); 
     
     if (req.query.any && req.query.any == "desc" && req.query.pais == "asc") {
-        let anyo = jsonData.sort((a, b) => b.anyo.localeCompare(a.anyo));
-        return res.json(anyo.sort((a, b) => a.pais.localeCompare(b.pais)));
+        let pais = jsonData.sort((a, b) =>  a.pais.localeCompare(b.pais, "es-ES", { numeric: true }));
+        return res.json(pais.sort((a, b) => a.anyo - b.anyo));        
+        
     } else if (req.query.any && req.query.any == "desc") {
         return res.json(jsonData.sort((a, b) => b.anyo.localeCompare(a.anyo)));
     }
 
     res.json(jsonData);
 });
+
+// ./api/paises  -> de cada pais el total de las ventas de cada uno
+// [{"pais": "Argentina", "ventas-totales": 1000}, {"pais": "Chile", "ventas-totales": 2000}]
+
 
 app.listen(PORT, () => console.log(`Example app listening on http://localhost:${PORT}`));
