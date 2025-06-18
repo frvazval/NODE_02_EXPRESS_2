@@ -7,6 +7,7 @@ process.loadEnvFile();
 const PORT = process.env.PORT || 8888;
 
 const jsonData  = require('./ventas.json');
+const { json } = require('node:stream/consumers');
 // console.log(jsonData);
 
 app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'));
@@ -73,7 +74,18 @@ app.get('/api/paises/:nombrePais', (req, res) => {
     if (resultado.length == 0) {
         return res.json({"respuesta": "No hay datos en este momento"})
     }
+    const resultadoFilter = jsonData.filter(objeto => objeto.pais.toLowerCase() == nombrePais);
+    console.log(resultadoFilter);
     res.json(resultado);
+})
+
+// api/year/2024
+app.get("/api/year/:year", (req, res) => {
+    const ventasAnuales = jsonData.filter(objeto => objeto.anyo == req.params.year);
+    
+    if (ventasAnuales.length == 0) return res.json({"respuesta": "No hay datos en este momento"})
+    else res.json(ventasAnuales);
+
 })
 
 app.listen(PORT, () => console.log(`Example app listening on http://localhost:${PORT}`));
