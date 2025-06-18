@@ -18,8 +18,7 @@ app.get('/api', (req, res) => {
     
     if (req.query.any && req.query.any == "desc" && req.query.pais == "asc") {
         let pais = jsonData.sort((a, b) =>  a.pais.localeCompare(b.pais, "es-ES", { numeric: true }));
-        return res.json(pais.sort((a, b) => a.anyo - b.anyo));        
-        
+        return res.json(pais.sort((a, b) => a.anyo - b.anyo));         
     } else if (req.query.any && req.query.any == "desc") {
         return res.json(jsonData.sort((a, b) => b.anyo.localeCompare(a.anyo)));
     }
@@ -27,8 +26,29 @@ app.get('/api', (req, res) => {
     res.json(jsonData);
 });
 
-// ./api/paises  -> de cada pais el total de las ventas de cada uno
+// /api/paises  -> de cada pais el total de las ventas de cada uno
 // [{"pais": "Argentina", "ventas-totales": 1000}, {"pais": "Chile", "ventas-totales": 2000}]
+app.get("/api/paises", (req, res) => {
+    const resultado = [];
+    const ventaPorPais = {};
 
+    for (let i = 0; i < jsonData.length; i++) {
+        const pais = jsonData[i].pais;
+        const venta = jsonData[i].venta;
+
+        if (!ventaPorPais[pais]) {
+            ventaPorPais[pais] = 0;
+        }
+
+        ventaPorPais[pais] += venta;
+    }
+
+})
+// /api/paises/italia -> de un pais concreto el total de las ventas
+
+app.get('/api/paises/:nombrePais', (req, res) => {
+    console.table(req.params);
+    
+})
 
 app.listen(PORT, () => console.log(`Example app listening on http://localhost:${PORT}`));
