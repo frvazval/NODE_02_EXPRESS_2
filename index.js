@@ -13,8 +13,7 @@ app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'));
 
 // /api se tiene que mostrar en la pantalla del navegador el contenido del json
 app.get('/api', (req, res) => {
-    // console.log(req.query);
-    console.table(req.query); 
+    // console.log(req.query);     
     
     if (req.query.any && req.query.any == "desc" && req.query.pais == "asc") {
         let pais = jsonData.sort((a, b) =>  a.pais.localeCompare(b.pais, "es-ES", { numeric: true }));
@@ -42,6 +41,17 @@ app.get("/api/paises", (req, res) => {
 
         ventaPorPais[pais] += venta;
     }
+
+    console.log(ventaPorPais);
+
+    for (clave in ventaPorPais) {
+        resultado.push({
+            "pais" : clave,
+            "ventas-totales" : ventaPorPais[clave]
+        })
+    }
+
+    res.json(resultado);
 
 })
 // /api/paises/italia -> de un pais concreto el total de las ventas
