@@ -51,6 +51,9 @@ app.get("/api/paises", (req, res) => {
         })
     }
 
+    if (resultado.length == 0) {
+        return res.json({"respuesta": "No hay datos en este momento"})
+    }
     res.json(resultado);
 
 })
